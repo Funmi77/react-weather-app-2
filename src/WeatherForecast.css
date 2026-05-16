@@ -1,15 +1,14 @@
 .WeatherForecast {
-  text-align: center;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
 .forecast-card {
-  background: white;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin: 10px 0;
-  transition: transform 0.2s ease-in-out;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 15px 10px;
+  text-align: center;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease;
 }
 
 .forecast-card:hover {
@@ -17,25 +16,50 @@
 }
 
 .forecast-day {
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 8px;
+  font-size: 14px;
+  color: #70757a;
+  margin-bottom: 10px;
+  font-weight: 500;
 }
 
 .forecast-icon {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
 }
 
 .forecast-temp {
-  margin-top: 8px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
 }
 
 .forecast-temp .max {
-  font-weight: bold;
-  margin-right: 6px;
+  color: #202124;
+  font-weight: 600;
 }
 
 .forecast-temp .min {
-  color: gray;
+  color: #70757a;
+}
+
+.forecast-loading {
+  text-align: center;
+  color: #70757a;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+/* Make row spacing nice */
+.WeatherForecast .row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Each column responsive */
+.WeatherForecast .col {
+  flex: 1;
+  min-width: 90px;
 }

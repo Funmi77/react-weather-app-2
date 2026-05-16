@@ -9,6 +9,8 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
 
   function handleResponse(response) {
+    console.log(response.data);
+
     setWeatherData({
       ready: true,
       coordinates: response.data.coordinates,
@@ -21,7 +23,6 @@ export default function Weather(props) {
       icon: response.data.condition.icon,
     });
   }
-
   const search = useCallback(() => {
     const apiKey = "7e77fbbbab91e5504tfaaa75643of118";
 
@@ -39,7 +40,6 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
 
-  // ✅ FIXED useEffect (no ESLint warning anymore)
   useEffect(() => {
     search();
   }, [search]);

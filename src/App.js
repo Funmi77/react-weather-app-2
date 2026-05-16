@@ -8,8 +8,16 @@ export default function App() {
       <div className="container">
         <Weather defaultCity="Lagos" />
 
-        <footer>
-          This project was coded by Funmilayo Fagbemi and is{" "}
+        <footer className="footer">
+          This project was coded by{" "}
+          <a
+            href="https://github.com/Funmi77"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Funmilayo Fagbemi
+          </a>{" "}
+          and is{" "}
           <a
             href="https://github.com/Funmi77/react-weather-app"
             target="_blank"
