@@ -25,7 +25,7 @@ export default function Weather(props) {
       icon: response.data.condition?.icon,
     });
   }
-  // ✅ FIXED: search is now stable (NO ESLINT WARNING)
+
   const search = useCallback(() => {
     const apiKey = "7e77fbbbab91e5504tfaaa75643of118";
 
@@ -43,7 +43,6 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
 
-  // ✅ FIXED: proper dependency, no warnings
   useEffect(() => {
     search();
   }, [search]);
