@@ -9,20 +9,23 @@ export default function Weather(props) {
   const [city, setCity] = useState(props.defaultCity);
 
   function handleResponse(response) {
-    console.log(response.data);
+    if (!response.data || !response.data.temperature) {
+      return;
+    }
 
     setWeatherData({
       ready: true,
       coordinates: response.data.coordinates,
-      temperature: response.data.temperature.current,
-      humidity: response.data.temperature.humidity,
-      date: new Date(response.data.time * 1000),
-      wind: response.data.wind.speed,
+      temperature: response.data.temperature?.current,
+      humidity: response.data.temperature?.humidity,
+      date: response.data.time ? new Date(response.data.time * 1000) : null,
+      wind: response.data.wind?.speed,
       city: response.data.city,
-      description: response.data.condition.description,
-      icon: response.data.condition.icon,
+      description: response.data.condition?.description,
+      icon: response.data.condition?.icon,
     });
   }
+  // ✅ FIXED: search is now stable (NO ESLINT WARNING)
   const search = useCallback(() => {
     const apiKey = "7e77fbbbab91e5504tfaaa75643of118";
 
@@ -40,6 +43,7 @@ export default function Weather(props) {
     setCity(event.target.value);
   }
 
+  // ✅ FIXED: proper dependency, no warnings
   useEffect(() => {
     search();
   }, [search]);
@@ -54,6 +58,7 @@ export default function Weather(props) {
                 type="search"
                 placeholder="Enter a city..."
                 className="form-control"
+                value={city}
                 onChange={handleCityChange}
               />
             </div>
@@ -70,13 +75,12 @@ export default function Weather(props) {
 
         <WeatherInfo data={weatherData} />
 
-        {/* safe check so forecast doesn't crash */}
         {weatherData.coordinates && (
           <WeatherForecast coordinates={weatherData.coordinates} />
         )}
       </div>
     );
-  } else {
-    return <div className="Weather">Loading...</div>;
   }
+
+  return <div className="Weather">Loading...</div>;
 }

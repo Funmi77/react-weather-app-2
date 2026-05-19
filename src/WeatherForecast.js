@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./WeatherForecast.css";
 
 export default function WeatherForecast(props) {
@@ -11,41 +11,9 @@ export default function WeatherForecast(props) {
     setLoaded(true);
   }
 
-  if (loaded) {
-    return (
-      <div className="WeatherForecast">
-        <div className="row">
-          {forecast.map(function (day, index) {
-            if (index < 6) {
-              return (
-                <div className="col" key={index}>
-                  <div className="forecast-card">
-                    <div className="forecast-day">{formatDay(day.time)}</div>
+  useEffect(() => {
+    setLoaded(false);
 
-                    <img
-                      src={day.condition.icon_url}
-                      alt={day.condition.description}
-                      className="forecast-icon"
-                    />
-
-                    <div className="forecast-temp">
-                      <span className="max">
-                        {Math.round(day.temperature.maximum)}°
-                      </span>
-                      <span className="min">
-                        {Math.round(day.temperature.minimum)}°
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-            return null;
-          })}
-        </div>
-      </div>
-    );
-  } else {
     const apiKey = "7e77fbbbab91e5504tfaaa75643of118";
 
     const latitude = props.coordinates.latitude;
@@ -54,9 +22,42 @@ export default function WeatherForecast(props) {
     const apiUrl = `https://api.shecodes.io/weather/v1/forecast?lat=${latitude}&lon=${longitude}&key=${apiKey}&units=metric`;
 
     axios.get(apiUrl).then(handleResponse);
+  }, [props.coordinates]);
 
-    return <div className="forecast-loading">Loading forecast...</div>;
+  if (loaded && forecast) {
+    return (
+      <div className="WeatherForecast">
+        <div className="row">
+          {forecast.slice(0, 6).map(function (day, index) {
+            return (
+              <div className="col" key={index}>
+                <div className="forecast-card">
+                  <div className="forecast-day">{formatDay(day.time)}</div>
+
+                  <img
+                    src={day.condition.icon_url}
+                    alt={day.condition.description}
+                    className="forecast-icon"
+                  />
+
+                  <div className="forecast-temp">
+                    <span className="max">
+                      {Math.round(day.temperature.maximum)}°
+                    </span>
+                    <span className="min">
+                      {Math.round(day.temperature.minimum)}°
+                    </span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
   }
+
+  return <div className="forecast-loading">Loading forecast...</div>;
 }
 
 // helper function
