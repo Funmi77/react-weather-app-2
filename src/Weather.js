@@ -1,7 +1,7 @@
 import axios from "axios";
 import WeatherInfo from "./WeatherInfo";
 import WeatherForecast from "./WeatherForecast";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import "./Weather.css";
 
 export default function Weather(props) {
@@ -16,23 +16,23 @@ export default function Weather(props) {
     setWeatherData({
       ready: true,
       coordinates: response.data.coordinates,
-      temperature: response.data.temperature?.current,
-      humidity: response.data.temperature?.humidity,
-      date: response.data.time ? new Date(response.data.time * 1000) : null,
-      wind: response.data.wind?.speed,
+      temperature: response.data.temperature.current,
+      humidity: response.data.temperature.humidity,
+      date: new Date(response.data.time * 1000),
+      wind: response.data.wind.speed,
       city: response.data.city,
-      description: response.data.condition?.description,
-      icon: response.data.condition?.icon,
+      description: response.data.condition.description,
+      icon: response.data.condition.icon,
     });
   }
 
-  const search = useCallback(() => {
+  function search() {
     const apiKey = "7e77fbbbab91e5504tfaaa75643of118";
 
     let apiUrl = `https://api.shecodes.io/weather/v1/current?query=${city}&key=${apiKey}&units=metric`;
 
     axios.get(apiUrl).then(handleResponse);
-  }, [city]);
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -45,7 +45,7 @@ export default function Weather(props) {
 
   useEffect(() => {
     search();
-  }, [search]);
+  }, []);
 
   if (weatherData.ready) {
     return (
